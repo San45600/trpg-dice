@@ -19,7 +19,7 @@ export default function Home() {
   const [second, setSecond] = useState("");
   const [num, setNum] = useState(-1);
   const [log, setLog] = useState<string[]>([]);
-  const [rolling, setRolling] = useState(false)
+  const [rolling, setRolling] = useState(false);
 
   const firstArray = Array.from({ length: 24 }, (_, i) => i + 1);
   const secondArray = Array.from({ length: 100 }, (_, i) => i + 1);
@@ -38,6 +38,14 @@ export default function Home() {
   return (
     <main className="flex min-h-screen items-center justify-center xl:flex-row flex-col bg-black">
       <div className="flex gap-8 flex-wrap p-12 w-full justify-center">
+        <Section
+          name="1d100"
+          max={100}
+          callback={(val) => {
+            callback(val);
+          }}
+          isCrit
+        />
         <Section
           name="1d3"
           max={3}
@@ -65,14 +73,6 @@ export default function Home() {
           callback={(val) => {
             callback(val);
           }}
-        />
-        <Section
-          name="1d100"
-          max={100}
-          callback={(val) => {
-            callback(val);
-          }}
-          isCrit
         />
         <Section
           name="2d3"
@@ -123,8 +123,8 @@ export default function Home() {
             className=""
             isDisabled={Number(first) <= 0 || Number(second) <= 0 || rolling}
             onClick={async () => {
-              setRolling(true)
-              let count = 0 
+              setRolling(true);
+              let count = 0;
               while (count < 50) {
                 setNum(getRandomInt(Number(first) * Number(second)));
                 await new Promise((resolve) => setTimeout(resolve, 10));
@@ -138,7 +138,7 @@ export default function Home() {
               const date = getDate();
               const dateWithVal = date + ` | ${total} (${first}d${second})`;
               callback(dateWithVal);
-              setRolling(false)
+              setRolling(false);
             }}
           >
             Start
@@ -195,15 +195,15 @@ function Section({
 }) {
   const [number, setNumber] = useState(-1);
   const [showText, setShowText] = useState(false);
-  const [rolling, setRolling] = useState(false)
+  const [rolling, setRolling] = useState(false);
   return (
     <Card className="flex flex-col gap-4 justify-center items-center border w-[240px] h-[220px] p-12 text-white">
       <div>{name}</div>
       {handleError(number)}
       <Button
-      isDisabled={rolling}
+        isDisabled={rolling}
         onClick={async () => {
-          setRolling(true)
+          setRolling(true);
           setShowText(false);
           let count = 0;
           while (count < 50) {
@@ -221,7 +221,7 @@ function Section({
           const date = getDate();
           const dateWithVal = date + ` | ${total} (${name})`;
           if (callback) callback(dateWithVal);
-          setRolling(false)
+          setRolling(false);
         }}
       >
         Start
