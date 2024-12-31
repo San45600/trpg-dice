@@ -32,10 +32,10 @@ interface CardData {
 
 export interface LogEntry {
   rollName: string;
-  name: string;
   date: string;
   rolls: {
     dice: string;
+    name: string
     specialDice: string;
     totalResult: string;
     baseResult: string;
@@ -73,12 +73,11 @@ export default function Home() {
       totalResult: string;
       baseResult: string;
       specialResult: string;
+      name: string
     }[],
-    name: string
   ) => {
     const newEntry: LogEntry = {
       rollName: rollName,
-      name: name,
       date: getDate(),
       rolls: rolls,
     };
@@ -320,7 +319,7 @@ export default function Home() {
                 }
                 onClick={async () => {
                   const result = await handleRoll(index);
-                  if (result) callback([result], cards[index].name);
+                  // if (result) callback([result], cards[index].name);
                 }}
               >
                 Start
@@ -376,6 +375,7 @@ export default function Home() {
               className="flex justify-center items-center"
               onClick={async () => {
                 const results = [];
+                const name = []
                 for (let i = 0; i < cards.length; i++) {
                   const result = await handleRoll(i);
                   if (result) {
@@ -383,9 +383,10 @@ export default function Home() {
                       ...result,
                       name: cards[i].name,
                     });
+                    name.push(cards[i].name);
                   }
                 }
-                callback(results, rollName);
+                callback(results);
               }}
             >
               Roll all
@@ -433,7 +434,7 @@ export default function Home() {
                       );
                       return (
                         <div key={i} className="flex gap-2">
-                          <span>{val.name}</span>
+                          <span>{r.name}</span>
                           <span
                             className={
                               Number(r.totalResult) === maxResult

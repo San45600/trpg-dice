@@ -39,7 +39,7 @@ export function Log({
                     );
                     return (
                       <div key={i} className="flex gap-2">
-                        <span>{val.name}</span>
+                        <span>{r.name}</span>
                         <span
                           className={
                             Number(r.totalResult) === maxResult
